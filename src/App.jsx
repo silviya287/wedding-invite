@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useState } from 'react'
 import EnvelopeIntro from './components/EnvelopeIntro'
 import HeroSlide from './components/HeroSlide'
@@ -62,7 +63,6 @@ function App() {
 
   return (
     <>
-      {/* Wedding music */}
       <audio
         ref={audioRef}
         src="/wedding-music.mp3"
@@ -70,19 +70,16 @@ function App() {
         preload="auto"
       />
 
-      {/* Envelope */}
       {!inviteOpen && (
         <EnvelopeIntro
           onComplete={() => setInviteOpen(true)}
         />
       )}
 
-      {/* Invitation */}
       {inviteOpen && (
         <main>
           <ScrollProgress />
 
-          {/* Music button */}
           <button
             onClick={toggleMusic}
             aria-label={
@@ -116,13 +113,9 @@ function App() {
             {musicPlaying ? '♫' : '🔇'}
           </button>
 
-          {/* Hero */}
           <HeroSlide />
-
-          {/* Countdown */}
           <CountdownSlide />
 
-          {/* Mehendi */}
           <EventSlide
             label="THE FIRST HUES OF LOVE"
             heading="Mehendi"
@@ -138,7 +131,6 @@ function App() {
             mapsUrl="https://www.google.com/maps/search/?api=1&query=Manik+Chowk"
           />
 
-          {/* Haldi */}
           <EventSlide
             label="A DAY OF GOLDEN JOY"
             heading="Haldi"
@@ -153,7 +145,6 @@ function App() {
             mapsUrl="https://maps.app.goo.gl/TcEMXLXoYsj1T7HDA"
           />
 
-          {/* Haldi Dinner */}
           <EventSlide
             label="AN EVENING TO REMEMBER"
             heading="Haldi Dinner"
@@ -165,11 +156,9 @@ function App() {
             time="8:00 PM"
             venue="Pushpak Wedding Hall"
             address="35/2121, Pushpak Road, near Akashwani, Naikwadi Nagar, Anand Nagar, Samta Colony, Dharashiv, Maharashtra 413501"
-            dressCode="Yellow"
             mapsUrl="https://maps.app.goo.gl/TcEMXLXoYsj1T7HDA"
           />
 
-          {/* Wedding */}
           <EventSlide
             label="THE BEGINNING OF FOREVER"
             heading="Wedding"
@@ -186,7 +175,19 @@ function App() {
             mapsUrl="https://maps.app.goo.gl/PXPaH3DCbXLfCy8A6"
           />
 
-          {/* Final */}
+          <EventSlide
+            label="AN EVENING OF CELEBRATION"
+            heading="Reception"
+            headingColor="#6b1e48"
+            accentColor="#c9942a"
+            description="Join us for an evening of celebration, joy and togetherness."
+            date="22 November 2026"
+            time="7:00 PM onwards"
+            venue="Pushpak Wedding Hall"
+            address="35/2121, Pushpak Road, near Akashwani, Naikwadi Nagar, Anand Nagar, Samta Colony, Dharashiv, Maharashtra 413501"
+            mapsUrl="https://maps.app.goo.gl/TcEMXLXoYsj1T7HDA"
+          />
+
           <FinalSlide />
         </main>
       )}

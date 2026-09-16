@@ -1,3 +1,4 @@
+
 import { motion } from 'framer-motion'
 import { fadeUp } from '../animations'
 
@@ -168,7 +169,7 @@ export default function HeroSlide() {
             lineHeight: '1',
           }}
         >
-          Sona
+          Shruti
         </h1>
 
         <div
@@ -192,7 +193,7 @@ export default function HeroSlide() {
             lineHeight: '1',
           }}
         >
-          Sunny
+          Reinhard
         </h1>
 
         <div
