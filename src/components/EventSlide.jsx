@@ -1,3 +1,4 @@
+
 import { motion } from 'framer-motion'
 import { fadeUp } from '../animations'
 
@@ -10,91 +11,80 @@ export default function EventSlide({
   time,
   venue,
   address,
-  dressCode,
   mapsUrl,
   accentColor = '#c9942a',
-  showCross = false,
   floralImage,
 }) {
-  const icon = showCross
-    ? '✝'
-    : heading === 'Mehendi'
-      ? '✿'
-      : heading === 'Haldi'
-        ? '✦'
-        : '♡'
+  const isMehendi = heading === 'Mehendi'
+  const isHaldi = heading === 'Haldi'
+  const isEngagement = heading === 'Engagement'
+  const isTraditional = isMehendi || isHaldi
+
+  const image =
+    isMehendi
+      ? '/mehendi-bg.png'
+      : isHaldi
+        ? '/haldi-bg.png'
+        : isEngagement
+          ? '/engagement-bg.png'
+          : heading === 'Wedding'
+            ? '/wedding-bg.png'
+            : heading === 'Reception'
+              ? '/reception-bg.png'
+              : floralImage || null
+
+  const theme = isMehendi
+    ? {
+        background: '#173f29',
+        accent: '#d5b15b',
+        heading: '#fff0c4',
+        text: '#fff5dc',
+        detail: 'rgba(17, 65, 39, 0.82)',
+        detailText: '#fff5dc',
+        button: 'rgba(17, 65, 39, 0.85)',
+      }
+    : isHaldi
+      ? {
+          background: '#f8e9b8',
+          accent: '#a96e12',
+          heading: '#87520a',
+          text: '#68471e',
+          detail: 'rgba(255, 239, 196, 0.92)',
+          detailText: '#58360b',
+          button: 'rgba(255, 240, 195, 0.95)',
+        }
+      : {
+          background: '#f8eee0',
+          accent: accentColor,
+          heading: headingColor || '#98704c',
+          text: '#654522',
+          detail: 'rgba(255, 250, 242, 0.91)',
+          detailText: '#654522',
+          button: 'rgba(255, 250, 242, 0.96)',
+        }
+
+  const displayHeading = isMehendi
+    ? "Sonu's Mehendi"
+    : heading
 
   return (
     <section
       style={{
         minHeight: '100svh',
-        background: '#f8eee0',
+        background: theme.background,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '35px 18px',
+        padding: '30px 18px',
         position: 'relative',
         overflow: 'hidden',
       }}
     >
-      {/* Soft background floral */}
-      {floralImage && (
-        <img
-          src={floralImage}
-          alt=""
-          style={{
-            position: 'absolute',
-            top: '-30px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '125%',
-            height: '420px',
-            objectFit: 'cover',
-            objectPosition: 'center',
-            opacity: 0.28,
-            WebkitMaskImage:
-              'linear-gradient(to bottom, black 0%, black 42%, transparent 100%)',
-            maskImage:
-              'linear-gradient(to bottom, black 0%, black 42%, transparent 100%)',
-            pointerEvents: 'none',
-          }}
-        />
-      )}
-
-      <div
-        style={{
-          position: 'absolute',
-          width: '280px',
-          height: '280px',
-          borderRadius: '50%',
-          background: `${accentColor}12`,
-          filter: 'blur(45px)',
-          top: '-100px',
-          right: '-100px',
-        }}
-      />
-
-      <div
-        style={{
-          position: 'absolute',
-          width: '250px',
-          height: '250px',
-          borderRadius: '50%',
-          background: `${accentColor}10`,
-          filter: 'blur(45px)',
-          bottom: '-100px',
-          left: '-100px',
-        }}
-      />
-
       <motion.div
         variants={fadeUp}
         initial="hidden"
         whileInView="visible"
-        viewport={{
-          once: true,
-          margin: '-80px',
-        }}
+        viewport={{ once: true, margin: '-80px' }}
         style={{
           width: '100%',
           maxWidth: '390px',
@@ -104,58 +94,54 @@ export default function EventSlide({
       >
         <div
           style={{
-            background: 'rgba(255, 252, 246, 0.93)',
-            backdropFilter: 'blur(5px)',
-            border: `1px solid ${accentColor}70`,
-            borderRadius: '24px',
-            padding: '32px 18px',
-            textAlign: 'center',
-            boxShadow:
-              '0 18px 45px rgba(74, 45, 19, 0.10)',
             position: 'relative',
+            width: '100%',
+            aspectRatio: '896 / 1200',
+            overflow: 'hidden',
+            backgroundColor: theme.background,
+            backgroundImage: image ? `url("${image}")` : 'none',
+            backgroundSize: '100% 100%',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            border: `2px solid ${theme.accent}`,
+            borderRadius: isTraditional ? '5px' : '12px',
+            boxShadow: '0 18px 45px rgba(0,0,0,0.14)',
           }}
         >
           <div
             style={{
               position: 'absolute',
-              inset: '9px',
-              border: `1px solid ${accentColor}25`,
-              borderRadius: '18px',
-              pointerEvents: 'none',
-            }}
-          />
-
-          <div
-            style={{
-              position: 'relative',
+              inset: isTraditional ? '9px' : '12px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+              padding: isTraditional
+                ? '45px 12px 12px'
+                : isEngagement
+                  ? '18px 12px 12px'
+                  : '35px 12px 12px',
+              textAlign: 'center',
+              boxSizing: 'border-box',
               zIndex: 1,
+              transform: isEngagement
+                ? 'translateY(-12px) scale(0.88)'
+                : 'none',
+              transformOrigin: 'top center',
             }}
           >
-            <div
-              style={{
-                width: '58px',
-                height: '58px',
-                borderRadius: '50%',
-                margin: '0 auto 18px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                background: `${accentColor}18`,
-                border: `1px solid ${accentColor}65`,
-                color: accentColor,
-                fontSize: showCross ? '22px' : '24px',
-              }}
-            >
-              {icon}
-            </div>
-
             <p
               style={{
                 fontFamily: 'EB Garamond, serif',
-                color: accentColor,
-                letterSpacing: '0.22em',
-                fontSize: '10px',
-                margin: '0 0 12px',
+                color: theme.accent,
+                letterSpacing: '0.2em',
+                fontSize: '11px',
+                fontWeight: '600',
+                textTransform: 'uppercase',
+                margin: '0 0 10px',
+                textShadow: isMehendi
+                  ? '0 1px 3px rgba(0,0,0,0.4)'
+                  : 'none',
               }}
             >
               {label}
@@ -164,63 +150,40 @@ export default function EventSlide({
             <h2
               style={{
                 fontFamily: 'Great Vibes, cursive',
-                fontSize: '56px',
+                fontSize: isMehendi ? '43px' : '49px',
                 fontWeight: '400',
-                color: headingColor,
+                color: theme.heading,
+                lineHeight: '1.1',
                 margin: '0 0 12px',
-                lineHeight: '1.05',
+                textShadow: isMehendi
+                  ? '0 2px 4px rgba(0,0,0,0.5)'
+                  : '0 1px 3px rgba(255,255,255,0.5)',
               }}
             >
-              {heading}
+              {displayHeading}
             </h2>
 
             <div
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '9px',
-                margin: '0 auto 20px',
+                width: '65px',
+                height: '1px',
+                background: theme.accent,
+                margin: '0 auto 13px',
               }}
-            >
-              <div
-                style={{
-                  width: '42px',
-                  height: '1px',
-                  background: accentColor,
-                  opacity: 0.7,
-                }}
-              />
-
-              <span
-                style={{
-                  color: accentColor,
-                  fontSize: '10px',
-                }}
-              >
-                ✦
-              </span>
-
-              <div
-                style={{
-                  width: '42px',
-                  height: '1px',
-                  background: accentColor,
-                  opacity: 0.7,
-                }}
-              />
-            </div>
+            />
 
             <p
               style={{
-                fontFamily:
-                  'Cormorant Garamond, serif',
-                fontSize: '18px',
+                fontFamily: 'Cormorant Garamond, serif',
+                fontSize: '16px',
                 fontStyle: 'italic',
-                lineHeight: '1.45',
-                color: '#654522',
-                margin: '0 auto 24px',
-                maxWidth: '290px',
+                lineHeight: '1.4',
+                color: theme.text,
+                maxWidth: '280px',
+                margin: '0 auto 16px',
+                textShadow: isMehendi
+                  ? '0 1px 3px rgba(0,0,0,0.5)'
+                  : 'none',
               }}
             >
               {description}
@@ -228,137 +191,113 @@ export default function EventSlide({
 
             <div
               style={{
-                background: '#fbf4e9',
-                borderRadius: '16px',
-                padding: '18px 12px',
-                border: `1px solid ${accentColor}25`,
-                marginBottom: '18px',
+                width: '100%',
+                maxWidth: '290px',
+                boxSizing: 'border-box',
+                background: theme.detail,
+                backdropFilter: 'blur(4px)',
+                WebkitBackdropFilter: 'blur(4px)',
+                border: `1px solid ${theme.accent}90`,
+                borderRadius: isTraditional ? '3px' : '10px',
+                padding: '12px 10px',
+                marginBottom: '12px',
               }}
             >
+              {/* Date */}
               <p
                 style={{
-                  fontFamily:
-                    'Cormorant Garamond, serif',
+                  fontFamily: 'EB Garamond, serif',
                   fontSize: '19px',
-                  color: '#4a2d13',
-                  margin: '0 0 7px',
-                  letterSpacing: '0.05em',
+                  fontWeight: '600',
+                  letterSpacing: '0.04em',
+                  color: theme.detailText,
+                  margin: '0 0 5px',
                 }}
               >
                 {date}
               </p>
 
-              <p
-                style={{
-                  fontFamily:
-                    'Cormorant Garamond, serif',
-                  fontSize: '25px',
-                  fontWeight: '600',
-                  color: headingColor,
-                  margin: '0 0 9px',
-                }}
-              >
-                {time}
-              </p>
+              {/* Time */}
+              {time && (
+                <p
+                  style={{
+                    fontFamily: 'EB Garamond, serif',
+                    fontSize: '23px',
+                    fontWeight: '600',
+                    letterSpacing: '0.03em',
+                    color: theme.detailText,
+                    margin: '0 0 7px',
+                  }}
+                >
+                  {time}
+                </p>
+              )}
 
               <div
                 style={{
-                  width: '35px',
+                  width: '30px',
                   height: '1px',
-                  background: accentColor,
-                  margin: '0 auto 10px',
-                  opacity: 0.6,
+                  background: theme.accent,
+                  margin: '0 auto 8px',
                 }}
               />
 
-              <p
-                style={{
-                  fontFamily:
-                    'EB Garamond, serif',
-                  fontSize: '16px',
-                  fontWeight: '600',
-                  color: '#654522',
-                  lineHeight: '1.4',
-                  margin: '0 0 6px',
-                }}
-              >
-                {venue}
-              </p>
+              {venue && (
+                <p
+                  style={{
+                    fontFamily: 'EB Garamond, serif',
+                    fontSize: '15px',
+                    fontWeight: '700',
+                    color: theme.detailText,
+                    lineHeight: '1.35',
+                    margin: '0 0 5px',
+                  }}
+                >
+                  {venue}
+                </p>
+              )}
 
-              <p
-                style={{
-                  fontFamily:
-                    'EB Garamond, serif',
-                  fontSize: '13px',
-                  color: '#806546',
-                  lineHeight: '1.45',
-                  margin: 0,
-                }}
-              >
-                {address}
-              </p>
-            </div>
-
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '7px 15px',
-                borderRadius: '30px',
-                background: `${accentColor}12`,
-                border: `1px solid ${accentColor}45`,
-                marginBottom: '18px',
-              }}
-            >
-              <span
-                style={{
-                  fontFamily: 'EB Garamond, serif',
-                  fontSize: '13px',
-                  color: '#70512d',
-                }}
-              >
-                Dress Code:
-              </span>
-
-              <strong
-                style={{
-                  fontFamily:
-                    'Cormorant Garamond, serif',
-                  fontSize: '15px',
-                  color: headingColor,
-                }}
-              >
-                {dressCode}
-              </strong>
+              {address && (
+                <p
+                  style={{
+                    fontFamily: 'EB Garamond, serif',
+                    fontSize: '12px',
+                    fontWeight: '600',
+                    color: theme.detailText,
+                    lineHeight: '1.35',
+                    margin: 0,
+                  }}
+                >
+                  {address}
+                </p>
+              )}
             </div>
 
             {mapsUrl && (
-              <div>
-                <a
-                  href={mapsUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    textDecoration: 'none',
-                    fontFamily:
-                      'EB Garamond, serif',
-                    fontSize: '13px',
-                    letterSpacing: '0.12em',
-                    color: headingColor,
-                    border: `1px solid ${accentColor}80`,
-                    padding: '9px 20px',
-                    borderRadius: '30px',
-                    background: '#fffaf2',
-                  }}
-                >
-                  <span>⌖</span>
-                  VIEW LOCATION
-                </a>
-              </div>
+              <motion.a
+                href={mapsUrl}
+                target="_blank"
+                rel="noreferrer"
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.97 }}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  textDecoration: 'none',
+                  fontFamily: 'EB Garamond, serif',
+                  fontSize: '12px',
+                  fontWeight: '700',
+                  letterSpacing: '0.12em',
+                  color: theme.detailText,
+                  border: `1px solid ${theme.accent}`,
+                  padding: '8px 18px',
+                  borderRadius: isTraditional ? '3px' : '25px',
+                  background: theme.button,
+                }}
+              >
+                VIEW LOCATION
+              </motion.a>
             )}
           </div>
         </div>

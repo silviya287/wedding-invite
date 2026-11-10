@@ -193,7 +193,7 @@ export default function HeroSlide() {
             lineHeight: '1',
           }}
         >
-          Reinhard
+          Renhard
         </h1>
 
         <div

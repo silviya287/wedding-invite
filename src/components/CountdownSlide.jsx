@@ -1,303 +1,214 @@
-import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
-import { fadeUp } from '../animations'
 
-export default function CountdownSlide() {
-  const calculateTimeLeft = () => {
-    const target = new Date('2026-11-22T16:00:00')
-    const now = new Date()
-    const difference = target - now
+import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { fadeUp } from '../animations';
 
-    if (difference <= 0) {
-      return {
-        days: 0,
-        hours: 0,
-        minutes: 0,
-        seconds: 0,
-      }
-    }
+const weddingDate = new Date('2026-11-22T17:00:00+05:30');
 
-    return {
-      days: Math.floor(
-        difference / (1000 * 60 * 60 * 24)
-      ),
-      hours: Math.floor(
-        (difference / (1000 * 60 * 60)) % 24
-      ),
-      minutes: Math.floor(
-        (difference / (1000 * 60)) % 60
-      ),
-      seconds: Math.floor(
-        (difference / 1000) % 60
-      ),
-    }
+function calculateTimeLeft() {
+  const difference = weddingDate.getTime() - new Date().getTime();
+
+  if (difference <= 0) {
+    return { days: 0, hours: 0, minutes: 0, seconds: 0 };
   }
 
-  const [timeLeft, setTimeLeft] = useState(
-    calculateTimeLeft()
-  )
+  return {
+    days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+    hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+    minutes: Math.floor((difference / (1000 * 60)) % 60),
+    seconds: Math.floor((difference / 1000) % 60),
+  };
+}
+
+export default function CountdownSlide() {
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft())
-    }, 1000)
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
 
-    return () => clearInterval(timer)
-  }, [])
+    return () => clearInterval(timer);
+  }, []);
 
-  const timeBoxes = [
+  const items = [
     { label: 'DAYS', value: timeLeft.days },
     { label: 'HOURS', value: timeLeft.hours },
     { label: 'MINUTES', value: timeLeft.minutes },
     { label: 'SECONDS', value: timeLeft.seconds },
-  ]
+  ];
 
   return (
     <section
       style={{
-        minHeight: '100svh',
-        background:
-          'radial-gradient(circle at 50% 45%, #fffdf8 0%, #f8eee0 60%, #f1dfc9 100%)',
+        width: '100%',
+        aspectRatio: '896 / 1200',
+        position: 'relative',
+        overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '35px 18px',
-        position: 'relative',
-        overflow: 'hidden',
+        background: `
+          radial-gradient(circle at 50% 35%, #fff9e9 0%, #f8e8c8 55%, #edcf9c 100%)
+        `,
+        fontFamily: "'EB Garamond', Georgia, serif",
       }}
     >
-      {/* Large floral background */}
-      <img
-        src="/countdown-floral.jpg"
-        alt=""
+      <div
         style={{
           position: 'absolute',
-          top: '-20px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: '120%',
-          height: '500px',
-          objectFit: 'cover',
-          objectPosition: 'center',
-          opacity: 0.32,
-          WebkitMaskImage:
-            'linear-gradient(to bottom, black 0%, black 45%, transparent 100%)',
-          maskImage:
-            'linear-gradient(to bottom, black 0%, black 45%, transparent 100%)',
-          pointerEvents: 'none',
+          inset: 0,
+          backgroundImage: "url('/countdown-floral.jpg')",
+          backgroundSize: '100% 100%',
+          backgroundPosition: 'center',
+          opacity: 0.38,
         }}
       />
 
       <div
         style={{
           position: 'absolute',
-          width: '320px',
-          height: '320px',
+          width: '340px',
+          height: '340px',
           borderRadius: '50%',
-          background: 'rgba(201, 148, 42, 0.08)',
-          filter: 'blur(55px)',
-          bottom: '-120px',
-          right: '-120px',
+          background: 'rgba(226, 169, 67, 0.20)',
+          filter: 'blur(75px)',
+          top: '12%',
+          left: '-15%',
         }}
       />
 
       <div
         style={{
           position: 'absolute',
-          width: '240px',
-          height: '240px',
+          width: '300px',
+          height: '300px',
           borderRadius: '50%',
-          background: 'rgba(201, 148, 42, 0.06)',
-          filter: 'blur(45px)',
-          top: '-80px',
-          left: '-100px',
+          background: 'rgba(218, 158, 54, 0.20)',
+          filter: 'blur(70px)',
+          bottom: '10%',
+          right: '-12%',
         }}
       />
 
       <motion.div
-        variants={fadeUp}
         initial="hidden"
-        whileInView="visible"
-        viewport={{
-          once: true,
-          margin: '-80px',
-        }}
+        animate="visible"
+        variants={fadeUp}
         style={{
-          width: '100%',
-          maxWidth: '390px',
           position: 'relative',
-          zIndex: 1,
+          zIndex: 2,
+          width: '82%',
+          padding: '34px 20px',
+          textAlign: 'center',
+          background: 'rgba(255, 251, 239, 0.90)',
+          border: '1.5px solid #D5A13F',
+          borderRadius: '18px',
+          boxShadow: '0 12px 35px rgba(133, 91, 29, 0.16)',
+          boxSizing: 'border-box',
         }}
       >
-        <div
+        <p
           style={{
-            background: 'rgba(255, 252, 246, 0.90)',
-            backdropFilter: 'blur(4px)',
-            border: '1px solid rgba(201, 148, 42, 0.55)',
-            borderRadius: '26px',
-            padding: '38px 20px',
-            textAlign: 'center',
-            boxShadow:
-              '0 18px 45px rgba(74, 45, 19, 0.12)',
-            position: 'relative',
+            color: '#A36B16',
+            fontSize: '12px',
+            letterSpacing: '4px',
+            margin: '0 0 15px',
+            fontWeight: 600,
           }}
         >
-          <div
-            style={{
-              position: 'absolute',
-              inset: '9px',
-              border:
-                '1px solid rgba(201, 148, 42, 0.25)',
-              borderRadius: '18px',
-              pointerEvents: 'none',
-            }}
-          />
+          COUNTING THE MOMENTS
+        </p>
 
-          <div
-            style={{
-              position: 'relative',
-              zIndex: 1,
-            }}
-          >
-            <p
-              style={{
-                fontFamily: 'EB Garamond, serif',
-                color: '#a97820',
-                letterSpacing: '0.25em',
-                fontSize: '11px',
-                margin: '0 0 12px',
-              }}
-            >
-              COUNTING THE MOMENTS
-            </p>
+        <h1
+          style={{
+            fontFamily: "'Great Vibes', cursive",
+            fontSize: 'clamp(38px, 8vw, 55px)',
+            fontWeight: 400,
+            color: '#9C651A',
+            margin: '0 0 12px',
+          }}
+        >
+          Until Forever
+        </h1>
 
-            <h2
-              style={{
-                fontFamily: 'Great Vibes, cursive',
-                fontSize: '55px',
-                fontWeight: '400',
-                color: '#5a3200',
-                margin: '0 0 8px',
-                lineHeight: '1.05',
-              }}
-            >
-              Until Forever
-            </h2>
+        <p
+          style={{
+            fontSize: '17px',
+            color: '#79572E',
+            margin: '0 0 28px',
+            letterSpacing: '1px',
+          }}
+        >
+          Shruti & Renhard
+        </p>
 
-            <p
-              style={{
-                fontFamily:
-                  'Cormorant Garamond, serif',
-                color: '#6b4a18',
-                fontSize: '17px',
-                fontStyle: 'italic',
-                margin: '0 0 30px',
-              }}
-            >
-              Until forever begins...
-            </p>
+        <div
+          style={{
+            width: '65%',
+            height: '2px',
+            margin: '0 auto 28px',
+            background: 'linear-gradient(to right, transparent, #C58A24, transparent)',
+          }}
+        />
 
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '14px',
+          }}
+        >
+          {items.map((item) => (
             <div
+              key={item.label}
               style={{
-                display: 'grid',
-                gridTemplateColumns:
-                  'repeat(2, 1fr)',
-                gap: '12px',
-                maxWidth: '300px',
-                margin: '0 auto 28px',
-              }}
-            >
-              {timeBoxes.map((item) => (
-                <div
-                  key={item.label}
-                  style={{
-                    background: 'rgba(251, 244, 233, 0.88)',
-                    border:
-                      '1px solid rgba(201, 148, 42, 0.28)',
-                    borderRadius: '15px',
-                    padding: '16px 8px',
-                  }}
-                >
-                  <div
-                    style={{
-                      fontFamily:
-                        'Cormorant Garamond, serif',
-                      fontSize: '32px',
-                      fontWeight: '600',
-                      color: '#5a3200',
-                      lineHeight: '1',
-                      marginBottom: '7px',
-                    }}
-                  >
-                    {String(item.value).padStart(2, '0')}
-                  </div>
-
-                  <div
-                    style={{
-                      fontFamily:
-                        'EB Garamond, serif',
-                      fontSize: '10px',
-                      letterSpacing: '0.16em',
-                      color: '#8a641e',
-                    }}
-                  >
-                    {item.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '9px',
+                padding: '17px 8px',
+                borderRadius: '12px',
+                background: 'linear-gradient(145deg, #FFF7E4, #F6E5C1)',
+                border: '1px solid #DDB45F',
+                boxShadow: '0 4px 12px rgba(153, 105, 32, 0.10)',
               }}
             >
               <div
                 style={{
-                  width: '50px',
-                  height: '1px',
-                  background: '#c9942a',
-                  opacity: 0.7,
-                }}
-              />
-
-              <span
-                style={{
-                  color: '#c9942a',
-                  fontSize: '11px',
+                  fontFamily: "'Playfair Display', Georgia, serif",
+                  fontSize: '36px',
+                  fontWeight: 700,
+                  color: '#A66C13',
+                  lineHeight: 1.2,
+                  fontVariantNumeric: 'tabular-nums',
                 }}
               >
-                ✦
-              </span>
+                {item.value}
+              </div>
 
               <div
                 style={{
-                  width: '50px',
-                  height: '1px',
-                  background: '#c9942a',
-                  opacity: 0.7,
+                  fontFamily: "'EB Garamond', Georgia, serif",
+                  fontSize: '13px',
+                  letterSpacing: '2px',
+                  color: '#79572E',
+                  marginTop: '7px',
                 }}
-              />
+              >
+                {item.label}
+              </div>
             </div>
-
-            <p
-              style={{
-                fontFamily:
-                  'Cormorant Garamond, serif',
-                color: '#604522',
-                fontSize: '15px',
-                letterSpacing: '0.12em',
-                margin: '18px 0 0',
-              }}
-            >
-              22 NOVEMBER 2026
-            </p>
-          </div>
+          ))}
         </div>
+
+        <p
+          style={{
+            fontFamily: "'Great Vibes', cursive",
+            fontSize: '25px',
+            color: '#A36B16',
+            margin: '28px 0 0',
+          }}
+        >
+          A beautiful beginning awaits...
+        </p>
       </motion.div>
     </section>
-  )
+  );
 }
